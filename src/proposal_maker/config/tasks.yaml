@@ -1,0 +1,323 @@
+extract_content:
+  description: >
+    Extract and analyze the content from the RFP document. 
+    This includes identifying key sections, requirements, specifications like in-scope and out-of-scope for the proposal, and timeline information.
+    The analysis should capture both explicit and implicit requirements, noting any dependencies or constraints mentioned in the document.
+    The extraction should also identify stakeholders, project scope, budget limitations, evaluation criteria, and any compliance or regulatory requirements. 
+    Special attention should be paid to technical specifications, service level agreements, and any mentioned success metrics or KPIs.
+    Any ambiguities or potential gaps in the RFP should be flagged for further clarification.
+  expected_output: >
+    A comprehensive, structured summary of the RFP content including detailed requirements(both explicit and implicit requirements),any dependencies or constraints, specifications like in-scope and out-of-scope for the proposal, timeline, stakeholders,budget limitations, evaluation criteria, and any compliance or regulatory requirements and constraints.
+    The output should be organized into clear hierarchical sections with proper categorization of information.
+    It should include metadata tags for each extracted element to facilitate traceability and cross-referencing.
+    Any identified ambiguities or potential gaps should be clearly highlighted with explanatory notes.
+  agent: document_reader
+
+classify_requirements:
+  description: >
+    This task classifies the extracted requirements into functional, non-functional, business, and technical categories. 
+    Each requirement should be analyzed for its type, priority, dependencies, complexity, implementation risk, and business value. 
+    The classification should help in understanding the scope and complexity of the project. 
+    Additionally, requirements should be tagged with attributes such as 'mandatory' vs 'optional', 'immediate' vs 'future phase', 'core functionality' vs 'enhancement', and 'externally visible' vs 'internal'. 
+    For each requirement, identify potential implementation challenges, verification methods, and downstream impacts on other system components.
+  expected_output: >
+    A detailed list of categorized requirements with comprehensive metadata including types, priorities, dependencies, complexity scores, risk assessments, and business value ratings. 
+    Each requirement should be uniquely identified, clearly labeled with its primary and secondary categories, and include a traceability matrix to source sections in the RFP. 
+    The output should also include a summary of potential implementation challenges, verification methods, and downstream impacts for each requirement.
+  agent: requirements_classifier
+  context:
+    - extract_content
+
+generate_personas:
+  description: >
+    This task helps in creating detailed user personas based on the RFP requirements and business context.
+    Each persona should represent a key stakeholder or user type, including their role, responsibilities, goals, pain points, technical proficiency, daily workflows, decision-making authority, and system usage patterns.
+    The personas should help in understanding the end-users' needs, expectations, and behavioral patterns. 
+    Including demographic information, professional background, motivations, frustrations with current systems, technology adoption tendencies, and contextual usage scenarios. 
+    Each persona should be developed with sufficient depth to guide design decisions and feature prioritization throughout the development lifecycle.
+  expected_output: >
+    A comprehensive set of user personas with detailed profiles including roles, goals, pain points, technical proficiency levels, usage scenarios, and behavior patterns. 
+    Each persona should be presented with a narrative description, visual representation, key characteristics, and contextual scenarios illustrating typical interactions with the system. 
+    The personas should be cross-referenced with specific RFP requirements and include assessment of impact on design decisions. The collection should represent the full spectrum of user types from novice to expert, occasional to power users, and operational to strategic stakeholders.
+  agent: persona_generator
+  context:
+    - classify_requirements
+    - extract_content
+
+identify_user_goals:
+  description: >
+    Identify and define user goals for each persona. 
+    These goals should align with the RFP requirements and represent what each user type wants to achieve. 
+    The goals should be specific, measurable, achievable, relevant, and time-bound (SMART). 
+    For each goal, analyze the underlying motivations, success criteria, potential obstacles, and relationship to business outcomes. 
+    Differentiate between primary goals (must-have) and secondary goals (nice-to-have). 
+    Map how these goals change throughout the user journey and how they relate to different system functionalities. Consider both explicit goals stated in the RFP and implicit goals derived from understanding of the business context and user needs.
+  expected_output: >
+    A comprehensive list of user goals aligned with each persona's needs, categorized by priority and type. 
+    Each goal should be clearly defined with SMART criteria, success metrics, relationship to business outcomes, and connection to specific requirements. 
+    The output should include a hierarchical goal structure showing relationships between high-level goals and supporting sub-goals. 
+    For each goal, provide contextual scenarios illustrating how users would achieve them through the system, along with acceptance criteria that would indicate successful goal attainment.
+  agent: goal_identifier
+  context:
+    - classify_requirements
+    - generate_personas
+    
+map_requirements:
+  description: >
+    Map requirements to user goals and identify coverage, gaps, and overlaps. 
+    This mapping should show how each requirement supports specific user goals and help identify any missing requirements or redundancies. 
+    The mapping should consider priority, dependencies, implementation complexity, and business impact. 
+    Analyze the strength of each requirement-goal relationship (direct support, indirect support, or enabling). 
+    Identify potential conflicts between requirements or goals. 
+    Evaluate whether the collective requirements fully satisfy each user goal and the overall project objectives. Assess whether requirements properly address non-functional aspects such as performance, security, usability, and scalability for each goal.
+  expected_output: >
+    A detailed mapping matrix of requirements to user goals with comprehensive coverage analysis. The output should include visual representations showing requirement-goal relationships with strength indicators, gap analysis highlighting under-served goals or over-engineered areas, conflict identification between competing requirements, and traceability to RFP sections. The mapping should include both tabular data and graphical visualizations such as heat maps or network diagrams to illustrate relationship patterns. Recommendations should be provided for addressing identified gaps, resolving conflicts, and optimizing the requirement set to better align with user goals.
+  agent: requirement_mapper
+  context:
+    - classify_requirements
+    - identify_user_goals
+
+generate_user_stories:
+  description: >
+    Generate comprehensive user stories based on the mapped requirements and goals. Each story should follow the format 'As a [persona], I want to [goal] so that [benefit]'. Stories should include detailed acceptance criteria, business value assessments, implementation complexity estimates, and priorities. 
+    Consider edge cases and alternative flows for each story. Group related stories into epics where appropriate. Include technical considerations and dependencies between stories. For complex functionalities, break down into multiple granular stories while maintaining traceability to the original requirements and goals. 
+    Consider the full user journey and ensure stories collectively provide complete coverage of requirements. For each story, identify potential challenges in implementation and testing.
+  expected_output: >
+    A comprehensive set of user stories with detailed acceptance criteria, business value metrics, complexity estimates, and priority rankings. 
+    Each story should be well-formed with clear persona reference, goal statement, and benefit explanation. 
+    Stories should be organized into epics and feature groups with clear relationship indicators. For each story, provide implementation notes, technical considerations, testing approaches, and dependency mappings. 
+    The collection should include both happy path and exception path scenarios, with edge cases explicitly addressed. Each story should maintain clear traceability to source requirements, personas, and business objectives.
+  agent: story_generator
+  context:
+    - classify_requirements
+    - identify_user_goals
+    - map_requirements
+
+generate_technical_report:
+  description: >
+    Generate a comprehensive technical report outlining the tech stack required to implement the solution mentioned in the proposal. The report should include detailed recommendations for frontend technologies, backend frameworks, database systems, API architectures, cloud infrastructure, DevOps tools, security measures, and third-party integrations. Each recommendation should be justified based on the functional and non-functional requirements identified in the RFP, considering factors such as scalability, performance, security, maintainability, cost-effectiveness, and alignment with business goals. The report should also address potential technical risks and mitigation strategies, along with implementation timeline considerations. Include architectural patterns, data flow diagrams, deployment models, capacity planning guidelines, disaster recovery approaches, and technology governance frameworks. Conduct comparative analysis of alternative technologies with decision matrices showing evaluation criteria. Address technology compatibility issues, integration challenges, and migration strategies if replacing existing systems. Consider future-proofing aspects, extensibility requirements, and emerging technology trends relevant to the domain.
+  expected_output: >
+    A comprehensive technical report with the following sections: 
+    1) Executive Summary of technology recommendations with strategic alignment rationale, 
+    2) Detailed System Architecture diagrams with component descriptions and interaction patterns, 
+    3) Technology Stack Analysis with in-depth evaluation of each component including version specifications and licensing considerations, 
+    4) Comparative Analysis of alternative technologies using multi-dimensional decision matrices, 
+    5) Detailed Implementation Roadmap with dependency graphs, critical path analysis and resource requirements, 
+    6) Scalability and Performance Engineering guidelines with capacity models and optimization strategies, 
+    7) Comprehensive Security Architecture covering authentication, authorization, data protection, network security and compliance controls, 
+    8) Development Workflow and DevOps practices including CI/CD pipeline specifications, environment management and quality gates, 
+    9) Testing Strategy covering unit, integration, performance, and security testing approaches, 
+    10) Deployment Architecture with infrastructure-as-code templates, scaling strategies and monitoring solutions, 
+    11) Operational Support Model with incident management processes and SLA frameworks, and 
+    12) Technology Risk Register with detailed mitigation strategies. Each section should explicitly trace recommendations back to specific functional and non-functional requirements from the RFP. 
+    The report should be well-structured, visually engaging, and suitable for both technical and non-technical stakeholders. It should include diagrams, tables, and charts to enhance clarity and understanding. The report should be written in a professional tone, avoiding jargon where possible, and ensuring accessibility for a diverse audience.
+  agent: tech_stack_recommender
+  context:
+    - classify_requirements
+    - identify_user_goals
+    - generate_user_stories
+
+generate_differentiation_analysis:
+  description: >
+    Conduct internet research to identify differentiating factors and unique strengths for this proposal. Analyze competitors and articulate clear, compelling reasons why this project should be chosen over alternatives. Highlight unique value propositions, innovative approaches, and advantages based on market research and industry trends.
+  expected_output: >
+    A detailed differentiation analysis report summarizing unique selling points, competitive advantages, and clear justifications for selecting this proposal over others. 
+    It should mainly focus on why this proposal is different from its competitors and specify its strengths. 
+    The report should include evidence from internet research, competitor comparisons, and a list of key strengths.
+    The report should not contain sections like executive summary or conclusion, you can add case studies or examples to support the analysis. 
+    The report should be structured with clear headings and subheadings, and include visual elements such as charts or tables to enhance understanding. 
+    The analysis should be objective, evidence-based, and actionable, with clear distinction between critical differentiators and enhancement opportunities for future consideration.
+  agent: internet_researcher
+  context:
+    - generate_technical_report
+
+calculate_project_cost:
+  description: >
+    Calculate the total project cost by determining each team member's hourly pay, multiplying by 8 hours per day, 5 days per week, and the total number of weeks in the project. Aggregate all team members' costs to provide a comprehensive project budget. Ensure transparency and justification for all calculations.
+  expected_output: >
+    A comprehensive project cost breakdown including per-member calculations, total cost, and summary tables. The output should include assumptions, calculation formulas, and any relevant notes for transparency.
+    The cost breakdown should be structured in a clear and organized manner, with sections for each team member's role, hourly rate, total hours, and overall cost. 
+    It should also include a buffer of 20% added to the total cost for contingencies. 
+    Include a summary table that aggregates all costs and provides a total project budget. 
+    The report should be easy to read and understand, with clear labeling and formatting. 
+    The cost breakdown should be presented in a way that is suitable for inclusion in the final proposal document.
+  agent: cost_calculator
+  context:
+    - map_requirements
+    - generate_personas
+    - generate_user_stories
+
+write_conclusion:
+  description: >
+    Draft a formal conclusion for the proposal, including a strong closing statement and clear contact details sourced from the official company webpage. The conclusion should reinforce the proposal's value and provide actionable next steps for the client.
+  expected_output: >
+    A well-written conclusion section with a professional closing statement and accurate contact information. 
+    The section should be suitable for direct inclusion in the final proposal document. 
+    At the bottom of the conclusion, include a call to action encouraging the client to reach out for further discussion or clarification. 
+    The contact information should be clearly presented, including name {user_name}, title, email address, and phone number. 
+    The conclusion should be concise, persuasive, and aligned with the overall tone of the proposal.
+    The conclusion should summarize the key points of the proposal, reiterate the unique value propositions, and express enthusiasm for the opportunity to work with the client. 
+    It should also address any potential concerns or questions the client may have, providing reassurance of the team's commitment to delivering a successful project.
+    The conclusion should be engaging and leave a positive impression on the client, encouraging them to take the next steps in the decision-making process.
+
+  agent: conclusion_writer
+  context:
+    - generate_differentiation_analysis
+    - calculate_project_cost
+
+
+create_final_proposal:
+  description: >
+    Create a comprehensive, professional final proposal documentation that synthesizes all analysis and artifacts into a cohesive business and technical solution. This document should articulate the understanding of client needs, proposed approach, implementation strategy, project management methodology, timeline, resource requirements, cost estimates, and expected outcomes. The proposal should be tailored to multiple stakeholder perspectives including business decision-makers, technical evaluators, and end-users. It should demonstrate clear understanding of the RFP requirements, competitive advantages of the proposed solution, risk management approach, quality assurance practices, and post-implementation support plan. The document should be persuasive, addressing potential concerns preemptively and highlighting unique value propositions.
+  expected_output: >
+    Create a polished, professional proposal document in markdown format for {company_name} for the date: {date}. 
+    The document must be well-structured, visually engaging, and suitable for both digital and print distribution. Follow these guidelines:
+
+    **Document Structure:**
+      - Table of contents (in a table format) for easy navigation with links to other sections(write it like this : [Executive Summary](#executive-summary) in markdown so that we can link to that section properly).
+      - Cover page with branding and title.
+      - Executive summary highlighting key value propositions. Include a brief overview of the company using {company_overview}, its objectives, and the unique value it offers to the client.
+      - Section explaining the client’s needs and project context.
+      - Section presenting user stories relevant to the proposal (write only the name of user stories, do not include their IDs).
+      - Proposed solution and technical specifications.
+      - Implementation approach with a SDLC methodology. For each SDLC phase, estimate the required time in weeks (use upper estimates).
+      - Project plan with milestones, deliverables, and resource allocations. Present this in a table format..
+      - Quality assurance and testing strategy.
+      - Risk management framework.
+      - Cost breakdown and ROI analysis. Use the cost from the calculate_project_cost task, provide a detailed breakdown of cost and calculate ROI based on project cost and calculate it and expected benefits. Present this in a table format.(Dont show the buffer added in the calculation, just show the total cost).
+      - Why Choose us section : with Differentiation analysis showing unique strengths and competitive advantages (use the output from the generate_differentiation_analysis task) and with References and case studies demonstrating relevant experience.
+      - Conclusion (use the output from the write_conclusion task).
+
+    **Formatting and Style Instructions:**
+      - Do not use numbers in section headings.
+      - Ensure the document is easy to navigate with a table of contents (in a table format, with links to each section), clear section headers, and cross-references.
+      - Write in a professional, business-appropriate tone.
+      - Make the content clear, detailed, and free of jargon, so it is accessible to both technical and non-technical readers.
+      - Avoid duplicate information or unnecessary repetition.
+      - When referencing user stories, goals, or personas, use their names only (not IDs).
+      - Use tables for the project plan and cost breakdown.
+      - Ensure consistent branding, formatting, and strategic use of visual elements throughout.
+
+    **IMPORTANT NOTE:**
+      - The proposal should be comprehensive and persuasive, addressing all required sections.
+      - All instructions above must be strictly followed.
+      - Do not change the structure or formating as mentioned in the task expected output.
+  agent: markdown_creator
+  context:
+    - generate_user_stories
+    - generate_technical_report
+    - generate_differentiation_analysis
+    - calculate_project_cost
+    - write_conclusion
+
+evaluate_output:
+  description: >
+    Conduct a comprehensive evaluation of all generated artifacts for completeness, consistency, accuracy, traceability, and alignment with the original RFP requirements. 
+    This evaluation should include both automated checks and expert review perspectives. Verify that all requirements are properly classified and prioritized; all personas have comprehensive profiles and associated goals; all goals are measurable and mapped to requirements; all user stories are complete with acceptance criteria and follow best practices; and all documentation maintains consistent terminology and cross-references. Identify potential gaps, inconsistencies, ambiguities, or areas needing enhancement. Analyze whether the solution addresses both explicit and implicit needs identified in the RFP. Check for technical feasibility of proposed approaches and alignment with industry best practices. Assess whether non-functional requirements such as performance, security, scalability, and usability are adequately addressed throughout all artifacts.
+  expected_output: >
+    A detailed evaluation report with both executive summary and in-depth analysis sections. The report should include: 
+    1) Comprehensive quality metrics for each artifact type, 
+    2) Traceability analysis showing coverage of RFP requirements, 
+    3) Consistency check results across all documentation, 
+    4) Gap analysis with specific recommendations for improvement, 
+    5) Risk assessment of identified issues with severity ratings, 
+    6) Prioritized action items for addressing findings, 
+    7) Comparative analysis against industry standards and best practices,
+    8) Visual dashboards showing quality metrics and coverage statistics. The evaluation should be objective, evidence-based, and actionable, with clear distinction between critical issues requiring immediate attention and enhancement opportunities for future consideration.
+    9)Update the proposal document with any necessary changes based on the evaluation findings.
+    10)Check the formatting and structure of the proposal document to ensure it meets the requirements specified in the create_final_proposal task.
+    11)Ensure that all sections are properly linked in the table of contents and that the document is easy to navigate.
+  agent: evaluator
+  context:
+    - generate_technical_report
+    - create_final_proposal
+
+critique_proposal:
+  description: >
+    Critically evaluate the final proposal by comparing it to the original RFP. Identify any gaps, inconsistencies, or misalignments with the RFP requirements, and provide clear, actionable feedback for improvement. The critique should be objective, comprehensive, and reference specific sections of both documents. Highlight strengths, weaknesses, and areas needing refinement.
+    You dont edit the final proposal, you just provide a detailed critique report that can be used by the refinement agent to make targeted improvements. The critique should be structured to facilitate easy understanding and actionable feedback.
+    The critique evaluates each section of the proposal against the required structure and content, ensuring it meets the highest standards for business and technical documentation. The critique should also assess the overall quality of the proposal, including formatting, style, and clarity.
+  expected_output: >
+    The output must be a detailed, actionable critique report that references the exact structure and content required for a top-tier professional proposal. The critique should:
+    
+    1. Clearly state whether the final proposal strictly follows the required document structure as outlined above, identifying any missing or misplaced sections.
+    2. Assess the quality and completeness of each section, referencing the specific content that should be present:
+        - The cover page must be visually engaging, centered, and branded, with clear project and company identification.
+        - The table of contents must be in a table format with working links to all major sections.
+        - The executive summary should concisely highlight the proposal's key value propositions and strategic fit.
+        - The client needs/context section must demonstrate a deep understanding of the RFP and business drivers.
+        - User stories must be relevant, well-written, and presented as text (not IDs), covering all major user types and scenarios.
+        - The solution and technical specifications must be detailed, justified, and aligned with requirements.
+        - The SDLC methodology and implementation approach must be realistic, phased, and time-estimated.
+        - The project plan must be tabular, with clear milestones, deliverables, and resource allocations.
+        - QA/testing and risk management sections must be thorough, actionable, and tailored to the project.
+        - The cost breakdown and ROI analysis must be transparent, detailed, and presented in a table, with ROI calculations based on project cost and expected benefits.
+        - The "Why Choose Us" section must include a strong differentiation analysis and relevant references/case studies.
+        - The conclusion must be professional, persuasive, and include a call to action and contact details.
+    3. Evaluate formatting and style: section headers, cross-references, tone, clarity, and visual consistency.
+    4. Identify any gaps, inconsistencies, or misalignments with the RFP, and provide specific, actionable recommendations for improvement, referencing the relevant section(s).
+    5. Highlight strengths and best practices observed in the proposal.
+    6. Structure the critique so it can be directly used by the refinement agent to make targeted improvements.
+    
+    The critique must be comprehensive, objective, and written in a professional, constructive tone. It should enable the refinement agent to produce a proposal that meets the highest standards for business and technical documentation.
+  agent: critique
+  context:
+    - create_final_proposal
+    - extract_content
+
+refine_proposal:
+  description: >
+    Refine and edit the final proposal based on the critique report. Only make changes to the sections and content specifically mentioned in the critique, preserving the structure and content of all other sections as in the original proposal. Ensure the revised proposal fully addresses the critique feedback while maintaining consistency and traceability.
+    Maintain the Document Structure like this, the same as the create_final_proposal task, and ensure the proposal is ready for direct delivery to the client.
+    **Document Structure:**
+      - Table of contents (in a table format) for easy navigation with links to other sections (write it like this : {[Executive Summary](#executive-summary)} in markdown so that we can link to that section properly).
+      - Cover page with branding and title
+      - Executive summary highlighting key value propositions.
+      - Section explaining the client’s needs and project context.
+      - Section presenting user stories relevant to the proposal (write only the text, do not include IDs).
+      - Proposed solution and technical specifications.
+      - Implementation approach with a SDLC methodology. For each SDLC phase, estimate the required time in weeks (use upper estimates).
+      - Project plan with milestones, deliverables, and resource allocations. Present this in a table format.
+      - Quality assurance and testing strategy.
+      - Risk management framework.
+      - Cost breakdown and ROI analysis. Use the cost from the calculate_project_cost task, provide a detailed breakdown of cost and calculate ROI based on project cost and expected benefits. Present this in a table format. (Don't show the buffer added in the calculation, just show the total cost).
+      - Why Choose us section: with Differentiation analysis showing unique strengths and competitive advantages (use the output from the generate_differentiation_analysis task) and with References and case studies demonstrating relevant experience.
+      - Conclusion (use the output from the write_conclusion task).
+
+    **Formatting and Style Instructions:**
+      - Do not use numbers in section headings.
+      - Do not include any code formatting or markdown/code fences such as ```markdown ``` or ```json```.
+      - Ensure the document is easy to navigate with a table of contents (in a table format, with links to each section), clear section headers, and cross-references.
+      - Write in a professional, business-appropriate tone.
+      - Make the content clear, detailed, and free of jargon, so it is accessible to both technical and non-technical readers.
+      - Avoid duplicate information or unnecessary repetition.
+      - When referencing user stories, goals, or personas, use their names only (not IDs).
+      - Use tables for the project plan and cost breakdown.
+      - Ensure consistent branding, formatting, and strategic use of visual elements throughout.
+
+    **Notes:**
+      - The proposal should be comprehensive and persuasive, addressing all required sections.
+      - All instructions above must be strictly followed.
+  expected_output: >
+    The output must be a fully revised, professional proposal document that strictly follows the required structure and content standards as detailed above.
+    The refinement is done only to the sections and content explicitly identified in the critique report, ensuring that all other sections remain unchanged from the original proposal. The refined proposal must not change anything that was not mentioned in the critique report and rewrite such sections as they were in the original proposal.
+    Specifically:
+    
+    1. Only update the sections and content explicitly identified in the critique report, leaving all other sections unchanged from the original proposal.
+    2. Ensure the revised sections fully address the critique's recommendations, including:
+        - Adding or correcting any missing, incomplete, or misplaced sections.
+        - Enhancing clarity, detail, and alignment with the RFP where required.
+        - Improving formatting, cross-references, and visual consistency as needed.
+        - Ensuring all tables, links, and visual elements are present and correctly formatted.
+        - Updating the cost breakdown and ROI analysis as per the latest calculations and critique feedback.
+        - Strengthening the differentiation analysis, references, and case studies if required.
+        - Revising the conclusion to be more persuasive and actionable if suggested.
+    3. Maintain the overall structure, branding, and style of the original proposal for all unchanged sections.
+    4. The final output must be ready for direct delivery to the client, meeting the highest standards for business and technical proposals.
+    
+    The refined proposal must be comprehensive, visually engaging, and strictly adhere to all structure, content, and style requirements. Only the necessary changes should be made, ensuring consistency and traceability throughout the document.
+  agent: refinement
+  context:
+    - critique_proposal
+    - create_final_proposal
+

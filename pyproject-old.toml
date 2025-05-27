@@ -1,0 +1,26 @@
+[project]
+name = "proposal_maker"
+version = "0.1.1"
+description = "proposal-maker using crewAI"
+authors = [
+    { name = "Aryan Bhargav", email = "you@example.com" },
+]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[agentops,tools]>=0.121.0,<1.0.0",
+    "pypandoc>=1.15",
+    "spire-doc>=13.4.6",
+]
+
+[project.scripts]
+proposal_maker = "proposal_maker.main:run"
+run_crew = "proposal_maker.main:run"
+train = "proposal_maker.main:train"
+replay = "proposal_maker.main:replay"
+test = "proposal_maker.main:test"
+
+[build-system]
+requires = [
+    "hatchling",
+]
+build-backend = "hatchling.build"
