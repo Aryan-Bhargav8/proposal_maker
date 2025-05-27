@@ -16,7 +16,7 @@ from .models import (
 
 llm1 = LLM(
         model="gemini/gemini-2.5-flash-preview-04-17",
-        temperature=0.3,
+        temperature=0.0,
         # stream=True,
         api_key=os.getenv("GEMINI_API_KEY"),  # Set your Google API key here
         reasoning_effort="high",  # Optional, can be set to "low", "medium", or "high"
@@ -165,7 +165,8 @@ class ProposalMaker():
         """Agent to critique the final proposal against the RFP."""
         return Agent(
             config=self.agents_config['critique'],
-            verbose=True
+            verbose=True,
+            llm=llm1,  # Use the LLM instance defined above
         )
 
     @agent
@@ -175,6 +176,7 @@ class ProposalMaker():
             config=self.agents_config['refinement'],
             verbose=True,
             llm=llm1,  # Use the LLM instance defined above
+            allow_delegation=True  # Allow delegation to other agents if needed
         )
 
     # Tasks

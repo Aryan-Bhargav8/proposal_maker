@@ -181,7 +181,7 @@ create_final_proposal:
       - Section presenting user stories relevant to the proposal (write only the name of user stories, do not include their IDs).
       - Proposed solution and technical specifications.
       - Implementation approach with a SDLC methodology. For each SDLC phase, estimate the required time in weeks (use upper estimates).
-      - Project plan with milestones, deliverables, and resource allocations. Present this in a table format..
+      - Project plan with milestones, deliverables, and resource allocations. Present this in a table format.
       - Quality assurance and testing strategy.
       - Risk management framework.
       - Cost breakdown and ROI analysis. Use the cost from the calculate_project_cost task, provide a detailed breakdown of cost and calculate ROI based on project cost and calculate it and expected benefits. Present this in a table format.(Dont show the buffer added in the calculation, just show the total cost).
