@@ -29,7 +29,7 @@ class ProposalMaker():
     def before_kickoff_function(self, inputs):
         print(f"Before kickoff function with inputs: {inputs}")
         inputs['company_name'] = input("Enter the company name:\n")
-        inputs['date'] = input("Enter the current year:\n")
+        inputs['date'] = input("Enter the current date:\n")
         inputs['user_name'] = input("Enter your name:\n")
         inputs['company_overview'] = input("Enter a brief company overview:\n")
         print(f"Before kickoff function with inputs: {inputs}")
