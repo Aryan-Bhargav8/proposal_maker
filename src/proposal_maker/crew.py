@@ -13,7 +13,7 @@ from .models import (
     RequirementsList, PersonasList, UserGoalsList, UserStoriesList,
     RequirementMappingsList, CritiqueReport
 )
-
+'''IEM Consultancy Services (IEMCS) is a dynamic and innovative organization that specializes in IT Products & Services, Engineering Solutions, and Management Solutions. Evolving from the prestigious Institute of Engineering and Management (IEM), we are uniquely positioned to bridge the gap between academia and industry, delivering cutting-edge solutions to meet the diverse needs of businesses and organizations.Our strength lies in our stakeholders, who include senior faculty members, PhD scholars, researchers, seasoned industry consultants, and talented students from both engineering and management disciplines. Together, we foster a collaborative environment that drives research, development, and the practical implementation of innovative technologies.At IEMCS, we are committed to empowering our clients by providing advanced solutions that encompass digital transformation, engineering excellence, and strategic management. Our focus on continuous learning, research, and industry collaboration ensure that we remain at the forefront of technological and business advancements, helping organizations achieve their goals and thrive in a competitive landscape.'''
 llm1 = LLM(
         model="gemini/gemini-2.5-flash-preview-04-17",
         temperature=0.0,
@@ -45,7 +45,7 @@ class ProposalMaker():
         return Agent(
             config=self.agents_config['document_reader'], # type: ignore[index]
             verbose=True,
-            tools=[FileReadTool(file_path="knowledge/Request for Proposal.txt")],
+            tools=[FileReadTool(file_path="knowledge\\Request for Proposal.txt")],
         )
 
     @agent
@@ -178,14 +178,24 @@ class ProposalMaker():
             llm=llm1,  # Use the LLM instance defined above
             allow_delegation=True  # Allow delegation to other agents if needed
         )
+    
+    @agent
+    def template_extractor(self) -> Agent:
+        """Agent to extract templates from the RFP."""
+        return Agent(
+            config=self.agents_config['template_extractor'],
+            verbose=True,
+            tools=[FileReadTool(file_path="templates\\template2.txt")],
+        )
 
     # Tasks
     @task
     def extract_content(self) -> Task:
         return Task(
             config=self.tasks_config['extract_content'], # type: ignore[index]
+            name="Extracting Content from RFP",
             tools=[FileReadTool(
-                    file_path="knowledge/Request for Proposal.txt"
+                    file_path="knowledge\\Request for Proposal.txt"
                 ),  # Optional, you can add tools to your task
             ],
             output_pydantic=ExtractedContent,  # Specify the output type
@@ -198,6 +208,7 @@ class ProposalMaker():
         """Classify extracted requirements."""
         return Task(
             config=self.tasks_config['classify_requirements'],
+            name="Classifying Requirements",
             output_pydantic=RequirementsList,
             output_file='output/json/requirements.json'
         )
@@ -207,6 +218,7 @@ class ProposalMaker():
         """Generate user personas."""
         return Task(
             config=self.tasks_config['generate_personas'],
+            name="Generating User Personas",
             output_pydantic=PersonasList,
             output_file='output/json/personas.json'
         )
@@ -216,6 +228,7 @@ class ProposalMaker():
         """Identify user goals for each persona."""
         return Task(
             config=self.tasks_config['identify_user_goals'],
+            name="Identifying User Goals",
             output_pydantic=UserGoalsList,
             output_file='output/json/user_goals.json'
         )
@@ -225,6 +238,7 @@ class ProposalMaker():
         """Map requirements to user goals."""
         return Task(
             config=self.tasks_config['map_requirements'],
+            name="Mapping Requirements to User Goals",
             output_pydantic=RequirementMappingsList,
             output_file='output/json/requirements_mapping.json'
         )
@@ -234,6 +248,7 @@ class ProposalMaker():
         """Generate user stories."""
         return Task(
             config=self.tasks_config['generate_user_stories'],
+            name="Generating User Stories",
             tools=[SerperDevTool(
                 n_results=30,
                 search_type="search",
@@ -245,14 +260,16 @@ class ProposalMaker():
     @task
     def generate_technical_report(self) -> Task:
         """Generate technical report."""
-        serperdevtool = SerperDevTool(
+        return Task(
+            config=self.tasks_config['generate_technical_report'],
+            name="Generating Technical Report",
+            tools=[
+                SerperDevTool(
             n_results=50,
             search_type="search",
             # search_engine="serperdev"  # Optional, specify if you want to use a specific search engine
         )
-        return Task(
-            config=self.tasks_config['generate_technical_report'],
-            tools=[serperdevtool],
+            ],
             output_file='output/intermediate_md/technical_report.md',
             markdown=True,  # Specify that this task outputs markdown
 
@@ -263,8 +280,8 @@ class ProposalMaker():
         """Conduct internet research for differentiating factors and strengths."""
         return Task(
             config=self.tasks_config['generate_differentiation_analysis'],
+            name="Generating Differentiation Analysis",
             tools=[SerperDevTool(
-                n_results=50,
                 search_type="search",
             )],
             output_file='output/intermediate_md/differentiation_analysis.md',
@@ -277,6 +294,7 @@ class ProposalMaker():
         """Calculate the total project cost."""
         return Task(
             config=self.tasks_config['calculate_project_cost'],
+            name="Calculating Project Cost",
             output_file='output/intermediate_md/project_cost.md',
             markdown=True,  # Specify that this task outputs markdown
         )
@@ -286,6 +304,7 @@ class ProposalMaker():
         """Draft a formal conclusion with contact details."""
         return Task(
             config=self.tasks_config['write_conclusion'],
+            name="Writing Conclusion",
             tools=[SerperDevTool(
                 n_results=10,
                 search_type="search",
@@ -293,12 +312,25 @@ class ProposalMaker():
             output_file='output/intermediate_md/conclusion.md',
             markdown=True,  # Specify that this task outputs markdown
         )
+    
+    @task
+    def extract_template_structure(self) -> Task:
+        """Extract template structure from the RFP."""
+        return Task(
+            config=self.tasks_config['extract_template_structure'],
+            name="Extracting Template Structure",
+            tools=[FileReadTool(file_path="templates\\template2.txt")],
+            output_file='output/intermediate_md/template_structure.md',
+            markdown=True,
+            # human_input=True, 
+        )
 
     @task
     def create_final_proposal(self) -> Task:
         """Create final proposal documentation."""
         return Task(
             config=self.tasks_config['create_final_proposal'],
+            name="Creating Final Proposal",
             markdown=True,  # Specify that this task outputs markdown
             output_file='output/final_md/proposal.md',
         )
@@ -308,6 +340,7 @@ class ProposalMaker():
         """Evaluate all generated artifacts."""
         return Task(
             config=self.tasks_config['evaluate_output'],
+            name="Evaluating Generated Artifacts",
             output_pydantic=EvaluationReport,
             output_file='output/json/evaluation_report.json'
         )
@@ -317,6 +350,7 @@ class ProposalMaker():
         """Task to critique the final proposal against the RFP."""
         return Task(
             config=self.tasks_config['critique_proposal'],
+            name="Critiquing Proposal",
             output_pydantic=CritiqueReport,
             output_file='output/json/critique_report.json',
         )
@@ -326,6 +360,7 @@ class ProposalMaker():
         """Task to refine the proposal based on critique feedback."""
         return Task(
             config=self.tasks_config['refine_proposal'],
+            name="Refining Proposal Based on Critique",
             output_file='output/final_md/refined_proposal.md',
             markdown=True,  # Specify that this task outputs markdown,
             human_input=True
@@ -337,9 +372,10 @@ class ProposalMaker():
 
 
         return Crew(
+            name="RFP TO PROPOSAL Maker CREW",
             agents=self.agents,
             tasks=self.tasks, 
             process=Process.sequential,
             verbose=True,
-            max_rpm=30
+            max_rpm=30,
         )

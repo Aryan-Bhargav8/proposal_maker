@@ -1,138 +1,125 @@
-# Project Cost Calculation Report
+# Project Cost Estimation Report
 
-## 1. Introduction
+This document provides a detailed breakdown of the estimated project costs based on the assumed team composition, project duration, and hourly rates. The calculation follows a structured approach to ensure transparency and justification.
 
-This document provides a detailed breakdown of the estimated project cost for developing the payroll system, based on the assumed project team composition, duration, and standard working hours. The calculation follows a structured approach to ensure transparency and justification of the estimated budget.
-
-## 2. Assumptions
+## 1. Assumptions
 
 The following assumptions have been made for this cost estimation:
 
-*   **Project Team Composition:** A dedicated team with specific roles is assigned to the project for its entire duration. The roles are based on the typical skill sets required for developing a system of this complexity, addressing the user stories and requirements outlined in the project context.
-*   **Project Duration:** The project is estimated to take **20 weeks** to complete.
-*   **Working Hours:** Each team member works a standard full-time schedule of **8 hours per day**.
-*   **Working Days per Week:** The standard work week is **5 days**.
-*   **Hourly Rates:** Illustrative hourly rates have been assigned to each role. These rates are estimates and may vary based on actual personnel experience and market conditions.
-*   **Full Allocation:** All team members are assumed to be allocated **100%** to this project for the entire duration.
-*   **Contingency Buffer:** A **20%** contingency buffer is added to the total calculated cost to account for unforeseen risks, scope changes, or delays.
+*   **Project Duration:** The project is estimated to take **12 weeks** to complete.
+*   **Standard Work Week:** A standard work week consists of **5 days**.
+*   **Standard Work Day:** A standard work day consists of **8 hours**.
+*   **Hours per Week per Full-Time Member:** Based on the standard work week and day, a full-time team member works **40 hours per week** (5 days/week * 8 hours/day).
+*   **Team Composition:** The project team consists of the following roles and number of full-time equivalent (FTE) members:
+    *   Project Manager: 1 FTE
+    *   Business Analyst: 1 FTE
+    *   Software Developer: 3 FTEs
+    *   QA Tester: 1 FTE
+    *   DevOps/System Admin: 0.5 FTE (part-time)
+*   **Hourly Pay Rates:** The following illustrative hourly pay rates are assumed for each role:
+    *   Project Manager: $100/hour
+    *   Business Analyst: $90/hour
+    *   Software Developer: $80/hour
+    *   QA Tester: $70/hour
+    *   DevOps/System Admin: $95/hour
+*   **Contingency Buffer:** A **20% buffer** is added to the total calculated cost to account for unforeseen circumstances, scope changes, or risks.
 
-## 3. Calculation Methodology
+## 2. Calculation Formulas
 
-The project cost is calculated based on the following formulas:
+The cost calculation is based on the following formulas:
 
-*   `Hours per Week per Member = 5 days/week * 8 hours/day = 40 hours/week`
-*   `Total Hours per Member = Hours per Week per Member * Total Number of Weeks`
-*   `Cost per Member = Total Hours per Member * Hourly Rate`
-*   `Total Project Cost (excluding buffer) = Sum of Cost per Member for all team members`
-*   `Contingency Buffer Amount = 20% * Total Project Cost (excluding buffer)`
-*   `Total Project Budget (including buffer) = Total Project Cost (excluding buffer) + Contingency Buffer Amount`
+*   `Hours per Week = 5 days/week * 8 hours/day`
+*   `Total Hours per Member = Hours per Week * Project Duration (in weeks) * Member's FTE`
+*   `Cost per Member = Total Hours per Member * Member's Hourly Pay Rate`
+*   `Total Base Project Cost = Sum of Cost per Member for all team members`
+*   `Contingency Buffer Amount = Total Base Project Cost * 20%`
+*   `Total Project Cost = Total Base Project Cost + Contingency Buffer Amount`
 
-## 4. Assumed Project Team and Hourly Rates
+## 3. Detailed Cost Breakdown per Team Member
 
-Based on the project scope, the assumed team composition and their illustrative hourly rates are as follows:
+Below is the detailed cost calculation for each team member based on the assumptions and formulas.
 
-| Role                         | Number of Members | Assumed Hourly Rate |
-| :--------------------------- | :---------------- | :------------------ |
-| Project Manager              | 1                 | $120                |
-| Business Analyst             | 1                 | $100                |
-| Software Architect           | 1                 | $150                |
-| Backend Developer            | 2                 | $110                |
-| Frontend Developer           | 1                 | $110                |
-| QA Tester                    | 1                 | $90                 |
-| DevOps Engineer              | 1                 | $130                |
+*   **Standard Hours per Week:** 40 hours
+*   **Total Project Weeks:** 12 weeks
 
-## 5. Detailed Cost Breakdown per Team Member
+### 3.1. Project Manager
 
-Based on the assumed 20-week project duration and 40 hours per week per member, the total hours worked per member is `40 hours/week * 20 weeks = 800 hours`.
+*   **Role:** Project Manager
+*   **FTE:** 1
+*   **Hourly Rate:** $100
+*   **Total Hours:** `1 FTE * 40 hours/week * 12 weeks = 480 hours`
+*   **Cost:** `480 hours * $100/hour = $48,000`
 
-The cost for each team member is calculated as follows:
+### 3.2. Business Analyst
 
-*   **Project Manager:**
-    *   Total Hours: 800 hours
-    *   Hourly Rate: $120
-    *   Cost: `800 hours * $120/hour = $96,000`
+*   **Role:** Business Analyst
+*   **FTE:** 1
+*   **Hourly Rate:** $90
+*   **Total Hours:** `1 FTE * 40 hours/week * 12 weeks = 480 hours`
+*   **Cost:** `480 hours * $90/hour = $43,200`
 
-*   **Business Analyst:**
-    *   Total Hours: 800 hours
-    *   Hourly Rate: $100
-    *   Cost: `800 hours * $100/hour = $80,000`
+### 3.3. Software Developer
 
-*   **Software Architect:**
-    *   Total Hours: 800 hours
-    *   Hourly Rate: $150
-    *   Cost: `800 hours * $150/hour = $120,000`
+*   **Role:** Software Developer
+*   **FTE:** 3
+*   **Hourly Rate:** $80
+*   **Total Hours per Developer:** `1 FTE * 40 hours/week * 12 weeks = 480 hours`
+*   **Total Hours for all Developers:** `3 FTEs * 480 hours/FTE = 1440 hours`
+*   **Cost:** `1440 hours * $80/hour = $115,200`
 
-*   **Backend Developer (Member 1):**
-    *   Total Hours: 800 hours
-    *   Hourly Rate: $110
-    *   Cost: `800 hours * $110/hour = $88,000`
+### 3.4. QA Tester
 
-*   **Backend Developer (Member 2):**
-    *   Total Hours: 800 hours
-    *   Hourly Rate: $110
-    *   Cost: `800 hours * $110/hour = $88,000`
+*   **Role:** QA Tester
+*   **FTE:** 1
+*   **Hourly Rate:** $70
+*   **Total Hours:** `1 FTE * 40 hours/week * 12 weeks = 480 hours`
+*   **Cost:** `480 hours * $70/hour = $33,600`
 
-*   **Frontend Developer:**
-    *   Total Hours: 800 hours
-    *   Hourly Rate: $110
-    *   Cost: `800 hours * $110/hour = $88,000`
+### 3.5. DevOps/System Admin
 
-*   **QA Tester:**
-    *   Total Hours: 800 hours
-    *   Hourly Rate: $90
-    *   Cost: `800 hours * $90/hour = $72,000`
+*   **Role:** DevOps/System Admin
+*   **FTE:** 0.5
+*   **Hourly Rate:** $95
+*   **Total Hours:** `0.5 FTE * 40 hours/week * 12 weeks = 240 hours`
+*   **Cost:** `240 hours * $95/hour = $22,800`
 
-*   **DevOps Engineer:**
-    *   Total Hours: 800 hours
-    *   Hourly Rate: $130
-    *   Cost: `800 hours * $130/hour = $104,000`
+## 4. Total Base Project Cost
 
-## 6. Summary of Project Cost (Excluding Contingency)
+The total base project cost is the sum of the costs for all team members.
 
-The total project cost before adding the contingency buffer is the sum of the costs for all team members:
+*   **Total Base Project Cost:** `$48,000 (PM) + $43,200 (BA) + $115,200 (Dev) + $33,600 (QA) + $22,800 (DevOps) = $262,800`
 
-| Role                 | Number | Total Hours | Hourly Rate | Cost        |
-| :------------------- | :----- | :---------- | :---------- | :---------- |
-| Project Manager      | 1      | 800         | $120        | $96,000     |
-| Business Analyst     | 1      | 800         | $100        | $80,000     |
-| Software Architect   | 1      | 800         | $150        | $120,000    |
-| Backend Developer    | 2      | 1600        | $110        | $176,000    |
-| Frontend Developer   | 1      | 800         | $110        | $88,000     |
-| QA Tester            | 1      | 800         | $90         | $72,000     |
-| DevOps Engineer      | 1      | 800         | $130        | $104,000    |
-| **Subtotal**         | **8**  | **7200**    |             | **$736,000**|
+## 5. Contingency Buffer
 
-*Note: Total hours for Backend Developer is 2 members * 800 hours/member = 1600 hours.*
+A 20% contingency buffer is added to the total base project cost.
 
-Total Project Cost (excluding buffer) = **$736,000**
+*   **Contingency Buffer Amount:** `20% of $262,800 = 0.20 * $262,800 = $52,560`
 
-## 7. Contingency Calculation
+## 6. Total Project Budget
 
-A 20% contingency buffer is added to the total cost to cover potential unforeseen circumstances.
+The total project budget includes the total base project cost and the contingency buffer.
 
-*   Contingency Buffer Amount = 20% of $736,000
-*   Contingency Buffer Amount = `0.20 * $736,000 = $147,200`
+*   **Total Project Budget:** `$262,800 (Base Cost) + $52,560 (Buffer) = $315,360`
 
-## 8. Total Project Budget (Including Contingency)
+## 7. Summary Table
 
-The total estimated project budget includes the calculated cost plus the contingency buffer.
+| Role                | Number of FTEs | Hourly Rate | Hours per Week (per FTE) | Total Project Weeks | Total Hours (for Role) | Cost (for Role) |
+| :------------------ | :------------- | :---------- | :----------------------- | :------------------ | :--------------------- | :-------------- |
+| Project Manager     | 1              | $100        | 40                       | 12                  | 480                    | $48,000         |
+| Business Analyst    | 1              | $90         | 40                       | 12                  | 480                    | $43,200         |
+| Software Developer  | 3              | $80         | 40                       | 12                  | 1440                   | $115,200        |
+| QA Tester           | 1              | $70         | 40                       | 12                  | 480                    | $33,600         |
+| DevOps/System Admin | 0.5            | $95         | 40                       | 12                  | 240                    | $22,800         |
+| **Subtotal (Base Cost)** |                |             |                          |                     |                        | **$262,800**    |
+| **Contingency Buffer (20%)** |                |             |                          |                     |                        | **$52,560**     |
+| **Total Project Budget** |                |             |                          |                     |                        | **$315,360**    |
 
-*   Total Project Budget = Total Project Cost (excluding buffer) + Contingency Buffer Amount
-*   Total Project Budget = `$736,000 + $147,200 = $883,200`
+## 8. Notes
 
-## 9. Summary Table: Total Project Budget
+*   The hourly rates used in this estimation are illustrative and should be adjusted based on actual market rates, team member experience, and location.
+*   The team composition and project duration are estimates and may need to be revised based on a more detailed scope definition and project planning.
+*   The 20% contingency buffer is a standard practice but can be adjusted based on the project's complexity and risk assessment.
+*   This cost estimation primarily covers personnel costs. Additional project costs (e.g., software licenses, infrastructure, third-party services, travel) are not included in this calculation and should be estimated separately.
+*   The calculation assumes a consistent workload throughout the 12 weeks for all team members at their specified FTE level.
 
-| Item                                  | Amount      |
-| :------------------------------------ | :---------- |
-| Total Project Cost (excluding buffer) | $736,000    |
-| Contingency Buffer (20%)              | $147,200    |
-| **Total Project Budget**              | **$883,200**|
-
-## 10. Notes and Justification
-
-*   The cost estimation is based on the stated assumptions regarding team composition, duration, and rates. Any changes to these assumptions will directly impact the total project cost.
-*   The assumed hourly rates are illustrative and should be validated based on the actual resources assigned to the project.
-*   The 20-week duration is an estimate based on the complexity implied by the user stories and requirements. A detailed project plan and scope definition would provide a more accurate timeline.
-*   The contingency buffer is a standard practice to manage project risks. The actual amount used will depend on how effectively risks are managed throughout the project lifecycle.
-*   This cost breakdown focuses solely on personnel costs based on time and rate. It does not include other potential project costs such as software licenses, hardware, third-party services, travel, or overheads, which should be considered for a complete financial plan.
-*   The team composition is designed to cover key areas like project management, business analysis, architecture, development (backend and frontend), quality assurance, and system operations/infrastructure. The number of resources per role is an estimate for a project of this assumed scale and duration.
+This report provides a transparent and justifiable basis for the project's personnel cost estimation, suitable for inclusion in a project proposal document.

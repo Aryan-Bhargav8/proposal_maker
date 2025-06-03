@@ -1,0 +1,404 @@
+﻿Request For Proposal                                                                                                   
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+A. Table of Contents
+
+
+1. Outline of the Project……………………………………………………………………2
+
+
+1.1 Nature & scope of the Project        2
+
+
+1.2 Expected Date of Delivery        2
+
+
+1.3 Expected Budget of Client        2
+
+
+1.4 Payment Terms        2
+
+
+1.5 Proposal Requirements………………………………………………………………...2
+
+
+2. Client Details……………………………………………………………………………2
+
+
+3. Implementation Specific Details………………………………………………………..2
+________________
+
+
+B. List Of Amendments On the Previous Version        
+
+
+Section 
+No
+	 Version No & Release Date
+	Change Particulars 
+	Approved By
+	Old
+	Date
+	New
+	Date
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+1.0         Outline of the Project
+1.1         Nature & scope of the Project
+
+
+< Mandatory >
+1.2         Expected Date of Delivery
+
+
+< Mandatory >
+1.3         Expected Budget of Client
+
+
+< If known >
+1.4         Payment Terms
+
+
+< Mandatory – Whether our client will pay some amount in advance or they will remit monthly or 
+
+
+as needed based upon the schedule of deliverables. >
+
+
+
+
+   5. Proposal Requirement
+
+
+< Mandatory > Mention the date by which Proposal to be forwarded and procedure to send the 
+
+
+proposal to Client ( Soft copy, Hard copy Faxed, Hard copy Couriered).
+
+
+
+
+________________
+
+
+
+
+2.0         Client Details
+
+
+< Mandatory > Mention previous Business details, existing contract(s), Future Prospect.
+
+
+Contact Person Name, E-Mail ID, Telephone No. etc.
+________________
+
+
+ 3.0         Project/ Product Requirement  Specification Details
+
+
+< Mandatory – Mention over here the O/S, H/W Platform, Programming Language, Libraries, any 
+
+
+applications to be used. Incase the client has asked to make decisions on these aspects to be 
+
+
+mentioned specifically. >
+
+
+ARB/TMP/PI/01(Ver. 1.1)        Confidential        Page  of
